@@ -41,7 +41,7 @@ a {
 	font-size: 16px;
 	letter-spacing: 1px;
 }
-.main-nav>ul>li:hover a{
+.main-nav>ul>li:hover a, .go-to-action:hover a {
 	color: #dfba55;
 }
 .main-nav>ul>li + li {
@@ -99,6 +99,9 @@ a {
 	background-color: #ffffff;
 	border-radius: 22px;
 	border: 1px solid #777;
+}
+.go-to-action:hover {
+	border-color: #dfba55;
 }
 .go-to-action>a {
 	text-align: center;
