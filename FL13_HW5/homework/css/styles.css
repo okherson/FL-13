@@ -42,6 +42,11 @@ a:hover {
 .logo>span {
   color: #7F184E;
 }
+.menu-btn {
+  width: 25px;
+  height: 25px;
+  display: none;
+}
 .menu-list {
   height: 100%;
   width: 400px;
@@ -268,21 +273,8 @@ a:hover {
   .menu-list {
     display: none;
   }
-  .nav-menu {
-		width: 20px;
-		height: 12px;
-		position: relative;
-    border-bottom: 2px solid #fff;
-	}
-	.nav-menu::after, .nav-menu::before {
-		content: "";
-		width: 100%;
-		height: 2px;
-		background-color: #fff;
-		position: absolute;
-	}
-	.nav-menu::after {
-		top: 6px;
+  .menu-btn {
+    display: block;
   }
   .logo {
     padding: 0;
