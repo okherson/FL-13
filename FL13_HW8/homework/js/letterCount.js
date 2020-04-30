@@ -1,5 +1,5 @@
 function letterCount(strSource, strToSearch) {
-	if (strToSearch && strSource) {
+  if (strToSearch && strSource) {
     strSource = strSource.toLowerCase();
     strToSearch = strToSearch.toLowerCase();
     let lenStrSource = strSource.length;

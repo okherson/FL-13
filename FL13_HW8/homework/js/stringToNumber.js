@@ -1,4 +1,4 @@
 function stringToNumber(str) {
-	return str ? +str : null;
+  return str ? +str : null;
 }
 stringToNumber('123');

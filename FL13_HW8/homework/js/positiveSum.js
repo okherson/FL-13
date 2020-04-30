@@ -10,6 +10,6 @@ function positiveSum(arr) {
       }
     }
   }
-	return sum;
+  return sum;
 }
 positiveSum();
