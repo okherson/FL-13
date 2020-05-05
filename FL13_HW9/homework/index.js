@@ -25,7 +25,7 @@ function mapArray (arr, toDoFunction) {
   let arrOfNums = [];
   for(let prop in arr) {
     if (typeof arr[prop] === TYPE_OF_STRING) {
-      arrOfNums[prop] = parseInt(arr[prop]);
+      arrOfNums[prop] = parseInt(arr[prop], 10);
     } else {
       arrOfNums[prop] = arr[prop];
     }
