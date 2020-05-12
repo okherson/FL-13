@@ -9,7 +9,6 @@ body {
   box-shadow: 0 0 5px 3px grey;
   padding: 20px;
 }
-
 ul {
   list-style: none;
 }
@@ -48,21 +47,24 @@ li.closed + li {
   z-index: 10;
   display: none;
 }
-.display {
+.active {
   display: block;
 }
 .context-menu>div {
   padding: 2px;
   color: black;
-  /* margin: 2px 10px; */
 }
-.passive>div {
+.disabled>div {
   color: grey;
 }
 li.folder:focus, li.file:focus {
   background-color:#DDDDDD;
   outline: none;
 }
-.context-menu:not(.passive)>div:hover, li.folder:hover, li.file:hover {
+.context-menu:not(.disabled)>div:hover,
+li.folder:hover,
+li.file:hover,
+input:hover,
+input:disabled:hover {
   background-color:#DDDDDD;
 }

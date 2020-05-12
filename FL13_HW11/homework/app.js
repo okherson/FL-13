@@ -52,8 +52,6 @@ const data = [
 
 const rootNode = document.getElementById('root');
 let target;
-// TODO: your code goes here
-console.log(data);
 
 function createTreeDom(obj) {
   if(!obj) {
@@ -62,7 +60,9 @@ function createTreeDom(obj) {
   let ul = document.createElement('ul');
   for(let el of obj) {
     let li = document.createElement('li');
-    li.innerHTML = el['title'];
+    li.innerHTML = `${el['title']}`;
+    li.setAttribute('tabindex', '0');
+    li.style.cursor = 'pointer';
     ul.append(li);
     setLiListeners(li);
     if (!el['folder']) {
@@ -73,7 +73,6 @@ function createTreeDom(obj) {
         ul.append(folderElementsLi);
 
       let childrenEl;
-      // childrenEl.setAttribute('hidden', true)
       if (el['children']) {
         childrenEl = createTreeDom(el['children']);
       } else {
@@ -84,6 +83,7 @@ function createTreeDom(obj) {
   }
   return ul;
 }
+
 function setLiListeners(el) {
   el.addEventListener('click', (e) => {
     if (e.buttons === 0 && el.classList.contains('folder')) {
@@ -92,6 +92,8 @@ function setLiListeners(el) {
     }
   });
 }
+
+rootNode.append(createTreeDom(data));
 function createContentMenu() {
   let menu = document.createElement('div');
   menu.setAttribute('class', 'context-menu');
@@ -106,80 +108,65 @@ function createContentMenu() {
   return menu;
 }
 
-(function contextMenuListener() {
-  let menu = document.getElementsByClassName('context-menu');
-  rootNode.addEventListener( 'contextmenu', function(e) {
-    if(e) {
-      target = e.target;
-      e.preventDefault();
-      const menuPosition = getMenuPosition(e);
-      menu[0].style.left = menuPosition.x + 'px';
-      menu[0].style.top = menuPosition.y + 'px';
-      menu[0].classList.add('display');
-      if (target.classList.contains('file') || target.classList.contains('folder')) {
-        target.setAttribute('tabindex', '0');
-        target.focus();
-        if (menu[0].classList.contains('passive')) {
-          menu[0].classList.remove('passive');
-        }
-        // menuEventParser(e.target);
-      } else {
-        menu[0].classList.add('passive');
-      }
-    }
-  });
-  document.addEventListener('click', () => {
-    if (menu[0].classList.contains('display')) {
-      menu[0].classList.remove('display');
-    }
-  })
-})();
+rootNode.append(createContentMenu());
 
-function getMenuPosition(e) {
-  if (e) {
-    let posx = 0;
-    let posy = 0;
-    if (e.pageX || e.pageY) {
-      posx = e.pageX;
-      posy = e.pageY;
-    } else if (e.clientX || e.clientY) {
-      posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    }
-    return { x: posx, y: posy }
-  }
-  return ;
+function setRange(el) {
+  let range = new Range();
+  range.setStart(el.firstChild, 0);
+  el.classList.contains('file') ? range.setEnd(el.firstChild, el.innerHTML.indexOf('.')) :
+  range.setEnd(el.firstChild, el.innerHTML.length);
+  window.getSelection().addRange(range)
 }
 
-// function menuEventParser() {
-//   if(target) {
-//     let renameItem = document.getElementById('renameItem');
-//     let deleteItem = document.getElementById('deleteItem');
-//     renameItem.addEventListener('click', () => {
-//       console.log('rename'+ target);
+function renameElement() {
+  if(target) {
+    target.focus();
+    target.setAttribute('contenteditable', true);
+    setRange(target);
+    document.addEventListener('click', () => {
+      if (event.button === 0 && target.getAttribute('contenteditable') && event.target.textContent !== 'Rename') {
+        target.setAttribute('contenteditable', false);
+      }
+    });
+  }
+}
 
+function deleteElement() {
+  if(target) {
+    let targetParent = target.parentNode;
+    if(target.classList.contains('folder')) {
+      target.nextSibling.remove();
+    }
+    target.remove();
+    if(targetParent.children.length === 0) {
+      targetParent.parentNode.innerHTML = 'Folder is empty';
+    }
+  }
+}
 
-//     });
-//     deleteItem.addEventListener('click', () => {
-//       // document.remove(target);
-//       console.log('removing next element');
-//       // target.removeEventListener('click');
-//       let targetParent = target.parentNode;
-//       console.log(target);
-//       console.log(targetParent);
-//       console.log(targetParent.children);
-//       target.remove();
-//       target = null;
-//       if(targetParent.children.length === 0) {
-//         // let childrenEl = document.createElement('span');
-//         targetParent.parentNode.innerHTML = 'Folder is empty';
-//         // targetParent.append(childrenEl);
-//         // console.log('add text');
-//       }
-//       // console.log(targetParent);
-
-//     });
-//   }
-// }
-rootNode.append(createContentMenu());
-rootNode.append(createTreeDom(data));
+(function contextMenuListener() {
+  let menu = rootNode.lastChild;
+  let renameItem = document.getElementById('renameItem');
+  let deleteItem = document.getElementById('deleteItem');
+rootNode.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    target = e.target;
+    menu.style.top = `${e.clientY}px`;
+    menu.style.left = `${e.clientX}px`;
+    if (target.classList.contains('file') || target.classList.contains('folder')) {
+      menu.classList.remove('disabled');
+    } else {
+      menu.classList.add('disabled');
+    }
+    menu.classList.add('active');
+    renameItem.addEventListener('click', renameElement);
+    deleteItem.addEventListener('click', deleteElement);
+  })
+  document.addEventListener('click', () => {
+    if(menu.classList.contains('active')) {
+      renameItem.removeEventListener('click', renameElement);
+      deleteItem.removeEventListener('click', deleteElement);
+      menu.classList.remove('active');
+    }
+  }, false);
+})();
