@@ -1,0 +1,54 @@
+h2 {
+	text-align: center;
+}
+#root {
+	max-width: 1200px;
+	display: grid;
+	grid-template-columns: 35% 65%;
+	margin: 0 auto;
+}
+#section1 {
+	background-color: khaki;
+}
+.bookListElement {
+	/* width: 60%; */
+	padding: 10px;
+	display: grid;
+	grid-template-columns: auto 70px;
+}
+#addBookBtn {
+	display: block;
+	margin: 10px auto;
+}
+#section2 {
+	background-color: lightgoldenrodyellow;
+	padding: 10px;
+}
+form>label {
+	display: grid;
+	grid-template-columns: 130px auto;
+	margin-top: 10px;
+}
+.btn {
+	width: 70px;
+	border-radius: 5px;
+}
+form>.btn {
+	float: right;
+	margin: 20px 10% 0 0;
+}
+form, #bookPreview {
+	display: none;
+}
+#bookView>p>span {
+	font-weight: bold;
+}
+#bookView>img {
+	width: 200px;
+}
+textarea {
+	height: 300px;
+	padding: 10px;
+	text-align: initial;
+	font-weight: normal;
+}
