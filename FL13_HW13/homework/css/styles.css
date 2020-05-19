@@ -1,0 +1,6 @@
+button.btn:nth-child(3), button.btn:nth-child(2) {
+	background-color: #FF7F50;
+}
+body > div:nth-child(2), body > div:nth-child(4) {
+	background-color: #343A40;
+}
