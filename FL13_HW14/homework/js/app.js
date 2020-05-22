@@ -12,7 +12,7 @@ const Student = function (newName, newEmail) {
 
 const FrontendLab = function (students, failedLimit) {
   const failedHomeworksLimit = failedLimit;
-  let studentsList = [];
+  const studentsList = [];
 
   function setStudentsList (students) {
     for(let student of students) {
