@@ -31,6 +31,7 @@ Vehicle.prototype.upgradeEngine = function(newEngine, newMaxSpeed) {
 }
 Vehicle.prototype.drive = function() {
   clearInterval(this.stopingIntervalId);
+  this.stopingIntervalId = 0;
   if (!this.driveIntervalId) {
     if (this instanceof Motorcycle) {
       console.log('Let\'s drive');
